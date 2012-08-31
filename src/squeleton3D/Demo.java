@@ -27,7 +27,7 @@ public class Demo extends PApplet {
 
 	public void setup() 
 	{
-		size(1024, 768, OPENGL);
+		size(640, 480, OPENGL);
 
 		try {
 
@@ -36,6 +36,7 @@ public class Demo extends PApplet {
 			kinect.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
 			kinect.setMirror(true);
 			// turn on vga - depth-color alignment
+			kinect.enableRGB();
 			kinect.alternativeViewPointDepthToImage(); 
 			
 			kApi = new KinectApi(this,kinect);
@@ -62,21 +63,22 @@ public class Demo extends PApplet {
 	{
 		kinect.update();
 		background(255);
-
+		image(kinect.rgbImage(),0,0);
 		translate(width/2, height/2, 0);
 
 		rotateX(radians(180));
-		scale(1);
+		//scale(1);
 
 		IntVector userList = new IntVector();
 		kinect.getUsers(userList);
 		
 		if (userList.size() > 0) {
-
+			
 			int userId = userList.get(0);
 			if ( kinect.isTrackingSkeleton(userId)) {			
+				hint(DISABLE_DEPTH_TEST);
 				kApi.draw3DSkeleton(userId);
-
+				
 
 				PVector position = new PVector();
 
@@ -86,17 +88,8 @@ public class Demo extends PApplet {
 
 				kinect.getJointOrientationSkeleton(userId, SimpleOpenNI.SKEL_RIGHT_ELBOW, orientation);
 				
-				// En el saque la raqueta se poner 'màs' derecha. //Esto deberia ser algo particular de la raqueta.
-				PVector rightElbow = new PVector();
-				PVector rightShoulder = new PVector();
-				kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_ELBOW, rightElbow);
-				kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_SHOULDER,rightShoulder);
-				if(rightElbow.y > rightShoulder.y && rightElbow.x > rightShoulder.x) { 
-				 println("Esta arriba del hombro ajusto la raqueta para saque");
-				 orientation.rotateY(150.0f);
-				}
-
-				model.display3DModel(position, orientation);
+				model.display3DModel(userId,kinect,position, orientation);				
+				hint(ENABLE_DEPTH_TEST);
 			}
 		}
 	}

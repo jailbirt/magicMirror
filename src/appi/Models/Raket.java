@@ -1,7 +1,10 @@
 package appi.Models;
 
+import java.awt.DisplayMode;
+
 import processing.core.*;
 import saito.objloader.OBJModel;
+import SimpleOpenNI.SimpleOpenNI;
 import appi.InteractModel;
 
 public class Raket extends InteractModel {
@@ -31,6 +34,19 @@ public class Raket extends InteractModel {
 		parent.rotateY(PApplet.radians(180));
 		
 		return this;
+	}
+	
+	public void display3DModel(int userId, SimpleOpenNI kinect, PVector position,PMatrix3D orientation){
+		// En el saque la raqueta se poner 'màs' derecha.
+		PVector rightElbow = new PVector();
+		PVector rightShoulder = new PVector();
+		kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_ELBOW, rightElbow);
+		kinect.getJointPositionSkeleton(userId,SimpleOpenNI.SKEL_RIGHT_SHOULDER,rightShoulder);
+		if(rightElbow.y > rightShoulder.y && rightElbow.x > rightShoulder.x) { 
+		 parent.println("Esta arriba del hombro ajusto la raqueta para saque");
+		 orientation.rotateY(150.0f);
+		}
+	    super.display3DModel(position, orientation);
 	}
 	
 }

@@ -3,7 +3,7 @@ package appi;
 import processing.core.*;
 import SimpleOpenNI.*;
 
-public class KinectApi
+public class KinectApi extends PApplet
 {
 	protected SimpleOpenNI kinect ;
 	protected PApplet parent ;
@@ -109,4 +109,53 @@ public class KinectApi
 		}
 		parent.updatePixels();		
 	}
+	
+	
+	//Metodos Para manipular diferencias entre la resolución del sketch <-> kinect.
+/*
+	int[] resizeDepth(int[] depthImg, int n){
+	  int xSizeOrig = kinect.depthWidth();
+	  int ySizeOrig = kinect.depthHeight();
+	  int xSize = xSizeOrig/n;
+	  int ySize = ySizeOrig/n;
+	  int[] resDepthImg = new int[xSize*ySize];
+
+	  for(int y = 0; y < ySize; y++){
+	    for(int x = 0; x < xSize; x++){
+	      resDepthImg[x + y*xSize] = depthImg[x*n + y*n*xSizeOrig];
+	    }
+	  }
+	  return resDepthImg;
+	}
+
+	PVector[] resizeMap3D(PVector[] map3D, int n){
+	  int xSizeOrig = kinect.depthWidth();
+	  int ySizeOrig = kinect.depthHeight();
+	  int xSize = xSizeOrig/n;
+	  int ySize = ySizeOrig/n;
+	  PVector[] resMap3D = new PVector[xSize*ySize];
+
+	  for(int y = 0; y < ySize; y++){
+	    for(int x = 0; x < xSize; x++){
+	      resMap3D[x + y*xSize] = map3D[x*n + y*n*xSizeOrig].get();
+	    }
+	  }
+	  return resMap3D;
+	}
+
+	PImage resizeRGB(PImage rgbImg, int n){
+	  int xSizeOrig = kinect.depthWidth();
+	  int ySizeOrig = kinect.depthHeight();
+	  int xSize = xSizeOrig/n;
+	  int ySize = ySizeOrig/n;
+	  PImage resRGB = createImage(xSize,ySize,RGB);
+	 
+	  for(int y = 0; y < ySize; y++){
+	    for(int x = 0; x < xSize; x++){
+	      resRGB.pixels[x + y*xSize] = rgbImg.pixels[x*n + y*n*xSizeOrig];
+	    }
+	  }
+	  return resRGB; 
+	}
+*/
 }
