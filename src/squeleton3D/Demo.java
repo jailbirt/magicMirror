@@ -1,7 +1,7 @@
 package squeleton3D;
 
-import appi.KinectApi;
-import appi.Models.*;
+import api.KinectApi;
+import api.Models.*;
 
 import SimpleOpenNI.*;
 import processing.core.*;
@@ -63,7 +63,9 @@ public class Demo extends PApplet {
 	{
 		kinect.update();
 		background(255);
+		hint(DISABLE_DEPTH_TEST); // Así se hace para realidad aumentada.
 		image(kinect.rgbImage(),0,0);
+		hint(ENABLE_DEPTH_TEST);
 		translate(width/2, height/2, 0);
 
 		rotateX(radians(180));
@@ -77,8 +79,8 @@ public class Demo extends PApplet {
 			int userId = userList.get(0);
 			if ( kinect.isTrackingSkeleton(userId)) 
 			{
-				hint(DISABLE_DEPTH_TEST);
-				kApi.draw2DKinectSkeleton(userId);
+			
+				kApi.draw3DSkeleton(userId);
 
 				PVector position = new PVector();
 
@@ -101,7 +103,7 @@ public class Demo extends PApplet {
 				}
 
 				model.display3DModel(position, orientation);
-				hint(ENABLE_DEPTH_TEST);
+
 			}
 		}
 	}
@@ -139,4 +141,5 @@ public class Demo extends PApplet {
 		kinect.finalize();
 		super.stop();
 	}
+  
 }
