@@ -5,6 +5,10 @@ import SimpleOpenNI.*;
 
 public class KinectApi extends PApplet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2422128540264796785L;
 	protected SimpleOpenNI kinect ;
 	protected PApplet parent ;
 	
