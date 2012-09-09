@@ -10,12 +10,11 @@ public class Raket extends InteractModel {
 		super(p);
 		// TODO Auto-generated constructor stub
 //		 String executionPath = System.getProperty("user.dir");		
-		model = new OBJModel(p, "data/TennisRaket/TennisRaket.obj", "relative", PConstants.TRIANGLES);
+		model = new OBJModel(p, "data/TennisRaket/TennisRaket.obj", "relative", PConstants.QUADS);
 		model.scale(20);
 		model.enableDebug();
 		model.enableMaterial();
 		model.enableTexture();
-
 		PVector cmass = new PVector(0,-100,0); // interseccion en el medio del puño
 		model.translate(cmass);
 	}
@@ -23,7 +22,6 @@ public class Raket extends InteractModel {
 	public InteractModel setupDisplay()
 	{
 		parent.noStroke(); //NoStroke para que muestre el material
-		parent.lights(); //Prendo Luces.
 		
 		//parent.stroke(255,0,0);
 		//parent.strokeWeight(1);
@@ -33,9 +31,21 @@ public class Raket extends InteractModel {
 		return this;
 	}
 	
-	public void display3DModel(PVector position,PMatrix3D orientation)
+	public void prepare3DModel(PVector position,PMatrix3D orientation)
 	{
-	    super.display3DModel(position, orientation);
+	    super.prepare3DModel(position, orientation);
+	}
+	public void display3DModel(PVector position,PVector axis,float angle)
+	{
+	    super.prepare3DModel(position,axis,angle);
+	}
+	public void shapeMode (int lines){
+		model.shapeMode(lines);
+	}
+
+	public void draw() {
+		// TODO Auto-generated method stub
+		model.draw();
 	}
 	
 }

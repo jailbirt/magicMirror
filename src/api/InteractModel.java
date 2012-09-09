@@ -16,22 +16,40 @@ abstract public class InteractModel  {
 		parent = p ;
 	}
 
-	public void display3DModel(PVector position, PMatrix3D orientation)
+	public void prepare3DModel(PVector position, PMatrix3D orientation)
 	{
-		parent.pushMatrix();
 
 		parent.translate(position.x, position.y, position.z);
 		parent.applyMatrix(orientation);
 
 		setupDisplay();
+		parent.lights(); //Prendo Luces.
+		parent.fill(250);
+		parent.noStroke();
+		parent.box(60);
+		//model.draw();
+		//this.display3DAxis();
+	
+	}
+
+
+	public void prepare3DModel(PVector position, PVector axis, float angle)
+	{//No estoy convencido de que ande, es el ejemplo del kinect. Probar bien.
+		parent.pushMatrix();
+	
+		parent.translate(position.x, position.y, position.z);
+		// rotate angle amount around axis
+		parent.rotate(angle, axis.x, axis.y, axis.z);
 		
-		model.draw();
-		
-		this.display3DAxis();
-		
+		parent.lights();
+		parent.fill(250);
+		setupDisplay();
+		parent.box(60);
+		//model.draw();
+		//this.display3DAxis();
 		parent.popMatrix();
 	}
-	
+
 	abstract public InteractModel setupDisplay();
 
 	public void display3DAxis()
