@@ -100,7 +100,9 @@ public class Demo extends PApplet {
 		
 		model.prepare3DModel(position, orientation);	
 		model.draw();
-//		kinect.drawJoint(userId,SimpleOpenNI.SKEL_RIGHT_HAND);
+		hint(DISABLE_DEPTH_TEST); // Así se hace para realidad aumentada.
+		kApi.drawJoint(userId,SimpleOpenNI.SKEL_RIGHT_HAND);
+		hint(ENABLE_DEPTH_TEST);
 		println("position X"+position.x);
 		println("position Y"+position.y);
 		kinect.convertRealWorldToProjective(position, position);	
@@ -112,10 +114,15 @@ public class Demo extends PApplet {
 	// user-tracking callback's !
 	public void onNewUser(int userId) 
 	{
-		//println("start pose detection");
-		//kinect.startPoseDetection("Psi", userId);
-		println("Detectando posicion quedate quieto un cacho!");
-		kinect.startTrackingSkeleton(userId);
+		try {
+		     println("Detectando posicion");
+		     kinect.startTrackingSkeleton(userId);
+		} catch (Throwable e) {
+			// Print out the exception that occurred
+		    println("An Exception occurs: " + e.getMessage() + "Autodetection doesn't works");
+		    println("porfa start pose detection");
+			kinect.startPoseDetection("Psi", userId);
+		}
 	}
 
 	public void onEndCalibration(int userId, boolean successful) 

@@ -79,7 +79,7 @@ public class KinectApi extends PApplet
 		parent.popMatrix();
 	}
 	
-	void drawJoint(int userId, int jointID)
+	public void drawJoint(int userId, int jointID)
 	{
 		PVector joint = new PVector();
 
