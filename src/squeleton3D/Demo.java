@@ -12,9 +12,19 @@ import processing.opengl.*;
 
 public class Demo extends PApplet {
 
-     /**
-     * 
-     */
+    /**
+    * 
+    */
+	//protected PBox2D box2d ;
+	protected Raket model;
+	protected SimpleOpenNI kinect ;
+	protected KinectApi kApi ;
+	boolean useMatrixForOrientation=true;
+	float zoomF =0.5f;
+	float rotX = radians(180);  // by default rotate the hole scene 180deg around the x-axis, the data from openni comes upside down
+	float rotY = radians(0);
+	
+	 
 	private static final long serialVersionUID = -4481472481792026127L;
 
 	public static void main(String args[]) 
@@ -22,12 +32,7 @@ public class Demo extends PApplet {
 		PApplet.main(new String[] { "--bgcolor=#FFFFFF", "squeleton3D.Demo" });    
 	}
 
-	//protected PBox2D box2d ;
-	protected Raket model;
-	protected SimpleOpenNI kinect ;
-	protected KinectApi kApi ;
-    boolean useMatrixForOrientation=true;
-    int Z=1000;
+	
     
 	public void setup() 
 	{
@@ -56,6 +61,9 @@ public class Demo extends PApplet {
 
 		noStroke();
 		noFill();
+		smooth();
+		perspective(radians(45),width/height,10,150000);
+	              
 	}
 
 	public void draw() 
@@ -65,10 +73,12 @@ public class Demo extends PApplet {
 		hint(DISABLE_DEPTH_TEST); // Así se hace para realidad aumentada.
 		image(kinect.rgbImage(),0,0);
 		hint(ENABLE_DEPTH_TEST);
-		translate(width/2, height/2, Z);
-
-		rotateX(radians(180));
-		//scale(3);
+		// set the scene pos
+		translate(width/2, height/2, 0);
+		rotateX(rotX);
+		rotateY(rotY);
+		scale(zoomF);
+    	translate(0,0,-1000);  // set the rotation center of the scene 1000 infront of the camera
 
 		IntVector userList = new IntVector();
 		kinect.getUsers(userList);
@@ -76,14 +86,17 @@ public class Demo extends PApplet {
 		if (userList.size() > 0) {
 			
 			int userId = userList.get(0);
-			if ( kinect.isTrackingSkeleton(userId)) matrixOrientation(userId);
+			if ( kinect.isTrackingSkeleton(userId)) {
+				kApi.draw3DSkeleton(userId);
+				matrixOrientation(userId);
+			}
 		}
 	}
 
 	//MatrixVersion
 	public void matrixOrientation (int userId) {
 		pushMatrix();
-		kApi.draw3DSkeleton(userId);
+		//  kApi.draw3DSkeleton(userId);
 		PVector position = new PVector();
 		kinect.getJointPositionSkeleton(userId, SimpleOpenNI.SKEL_RIGHT_HAND, position);
 		PMatrix3D orientation = new PMatrix3D();
@@ -153,17 +166,39 @@ public class Demo extends PApplet {
 	}
 	public void keyPressed()
 	{
-		if(key == '1'){ model.shapeMode(LINES); }
-		else if (key == '2'){ model.shapeMode(TRIANGLES); }
-		else if (key == '3'){ model.shapeMode(POINT); }
-		else if (key == '4'){ model.shapeMode(QUADS); }
-		else if (key == '5'){ model.shapeMode(POLYGON); }
-		else if (key == '6'){
-			if (useMatrixForOrientation) useMatrixForOrientation=false;
-			else useMatrixForOrientation=true;
-		}else if (key == '+' && Z < 1000) Z+=100;
-		else if (key == '-' && Z > 0)  Z-=100;
-		println("Z"+Z);
+		  switch(keyCode)
+		  {
+		    case 1:model.shapeMode(LINES);break; 
+			case 2:model.shapeMode(TRIANGLES);break;
+			case 3:model.shapeMode(POINT);break; 
+			case 4:model.shapeMode(QUADS);break; 
+			case 5:model.shapeMode(POLYGON);break; 
+			case 6:
+			       if (useMatrixForOrientation) useMatrixForOrientation=false;
+				   else useMatrixForOrientation=true;
+				   break;
+  		    case LEFT:rotY += 0.1f;break;
+		    case RIGHT:
+		              // zoom out
+		              rotY -= 0.1f;
+		              break;
+		    case UP:
+		             if(keyEvent.isShiftDown())
+		               zoomF += 0.01f;
+		             else
+		               rotX += 0.1f;
+		             break;
+		    case DOWN:
+		              if(keyEvent.isShiftDown())
+		              {
+		                zoomF -= 0.01f;
+		                if(zoomF < 0.01)
+		                  zoomF = 0.01f;
+		              }
+		              else
+		                rotX -= 0.1f;
+		              break;
+		  }
 		
 	}
 }
