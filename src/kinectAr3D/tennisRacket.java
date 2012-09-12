@@ -1,4 +1,4 @@
-package squeleton3D;
+package kinectAr3D;
 
 import api.KinectApi;
 import api.Models.*;
@@ -10,7 +10,7 @@ import processing.opengl.*;
 
 //import pbox2d.*;
 
-public class Demo extends PApplet {
+public class tennisRacket extends PApplet {
 
     /**
     * 
@@ -19,8 +19,10 @@ public class Demo extends PApplet {
 	protected Raket model;
 	protected SimpleOpenNI kinect ;
 	protected KinectApi kApi ;
-	boolean useMatrixForOrientation=true;
-	float zoomF =0.5f;
+	boolean show3dSkel=false;
+	boolean removeBackground=false;
+	boolean userPixels=false;
+	float zoomF =0.7f;
 	float rotX = radians(180);  // by default rotate the hole scene 180deg around the x-axis, the data from openni comes upside down
 	float rotY = radians(0);
 	
@@ -29,7 +31,7 @@ public class Demo extends PApplet {
 
 	public static void main(String args[]) 
 	{
-		PApplet.main(new String[] { "--bgcolor=#FFFFFF", "squeleton3D.Demo" });    
+		PApplet.main(new String[] { "--bgcolor=#FFFFFF", "kinectAr3D.tennisRacket" });    
 	}
 
 	
@@ -87,7 +89,13 @@ public class Demo extends PApplet {
 			
 			int userId = userList.get(0);
 			if ( kinect.isTrackingSkeleton(userId)) {
-				kApi.draw3DSkeleton(userId);
+				if(show3dSkel) kApi.draw3DSkeleton(userId);
+				if(userPixels) {
+					if(removeBackground) background(255);
+					hint(DISABLE_DEPTH_TEST); 
+					kApi.displayUserPixels(userId);	
+					hint(ENABLE_DEPTH_TEST); 
+				}
 				matrixOrientation(userId);
 			}
 		}
@@ -116,11 +124,7 @@ public class Demo extends PApplet {
 		hint(DISABLE_DEPTH_TEST); // Así se hace para realidad aumentada.
 		kApi.drawJoint(userId,SimpleOpenNI.SKEL_RIGHT_HAND);
 		hint(ENABLE_DEPTH_TEST);
-		println("position X"+position.x);
-		println("position Y"+position.y);
 		kinect.convertRealWorldToProjective(position, position);	
-		println("CONVposition X"+position.x);
-		println("CONVposition Y"+position.y);
 		popMatrix();
 	}
 		
@@ -173,10 +177,7 @@ public class Demo extends PApplet {
 			case 3:model.shapeMode(POINT);break; 
 			case 4:model.shapeMode(QUADS);break; 
 			case 5:model.shapeMode(POLYGON);break; 
-			case 6:
-			       if (useMatrixForOrientation) useMatrixForOrientation=false;
-				   else useMatrixForOrientation=true;
-				   break;
+			
   		    case LEFT:rotY += 0.1f;break;
 		    case RIGHT:
 		              // zoom out
@@ -189,16 +190,35 @@ public class Demo extends PApplet {
 		               rotX += 0.1f;
 		             break;
 		    case DOWN:
-		              if(keyEvent.isShiftDown())
+		              if(keyEvent.isShiftDown() && zoomF > 0.01)
 		              {
 		                zoomF -= 0.01f;
-		                if(zoomF < 0.01)
-		                  zoomF = 0.01f;
 		              }
 		              else
 		                rotX -= 0.1f;
 		              break;
 		  }
-		
+		  switch(key)
+		  {
+		    case 's':
+		       if (show3dSkel) show3dSkel=false;
+			   else show3dSkel=true;
+			   break;
+		    case 'b':
+			       if (removeBackground) removeBackground=false;
+				   else removeBackground=true;
+				   break;
+		    case 'u':
+			       if (userPixels) {
+			    	   zoomF=0.7f;
+			    	   userPixels=false;
+			       }
+				   else
+					   {
+			    	   zoomF=0.2f; 	 
+					   userPixels=true;
+					   }
+					break;
+		  }
 	}
 }

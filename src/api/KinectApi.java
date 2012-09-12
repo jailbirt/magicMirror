@@ -153,6 +153,27 @@ public class KinectApi extends PApplet
 		parent.updatePixels();		
 	}
 	
+	public void displayUserPixels(int uId)
+	{
+		 // get the Kinect color image
+	    PImage rgbImage = kinect.rgbImage(); //5
+	    int[] userMap;
+	    // prepare the color pixels
+	    rgbImage.loadPixels();
+	    
+	    parent.loadPixels();
+	    userMap = kinect.getUsersPixels(SimpleOpenNI.USERS_ALL);
+	    for (int i =0; i < userMap.length; i++) {
+	      // if the pixel is part of the user
+	      if (userMap[i] != 0) {
+	        // set the sketch pixel to the color pixel
+	        parent.pixels[i] = rgbImage.pixels[i]; //6
+	      }
+	    }
+	    parent.updatePixels();
+	    		
+	}
+	
 	public void getBodyDirection(int userId,PVector centerPoint,PVector dir)
 	{
 	  PVector jointL = new PVector();

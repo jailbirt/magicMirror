@@ -24,9 +24,8 @@ abstract public class InteractModel  {
 
 		setupDisplay();
 		parent.lights(); //Prendo Luces.
-		parent.fill(250);
+		parent.fill(255);
 		parent.noStroke();
-		parent.box(60);
 		//model.draw();
 		//this.display3DAxis();
 	
