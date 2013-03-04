@@ -5,7 +5,7 @@ import api.Models.*;
 
 import SimpleOpenNI.*;
 import processing.core.*;
-import processing.opengl.*;
+//import processing.*;
 
 
 //import pbox2d.*;
@@ -31,6 +31,7 @@ public class tennisRacket extends PApplet {
 
 	public static void main(String args[]) 
 	{
+		
 		PApplet.main(new String[] { "--bgcolor=#FFFFFF", "kinectAr3D.tennisRacket" });    
 	}
 
@@ -84,10 +85,10 @@ public class tennisRacket extends PApplet {
 
 		IntVector userList = new IntVector();
 		kinect.getUsers(userList);
-		
-		if (userList.size() > 0) {
-			
-			int userId = userList.get(0);
+		int users=(int) userList.size();
+		if (users > 0) {
+		 for (int i = 0; i < users; i++) {
+			int userId = userList.get(i);
 			if ( kinect.isTrackingSkeleton(userId)) {
 				if(show3dSkel) kApi.draw3DSkeleton(userId);
 				if(userPixels) {
@@ -98,6 +99,7 @@ public class tennisRacket extends PApplet {
 				}
 				matrixOrientation(userId);
 			}
+		 }
 		}
 	}
 
@@ -119,7 +121,16 @@ public class tennisRacket extends PApplet {
 		if(rightElbow.y > rightShoulder.y && rightElbow.x > rightShoulder.x)
 			orientation.rotateY(150.0f);
 		
-		model.prepare3DModel(position, orientation);	
+		model.prepare3DModel(position, orientation);
+        //Prueba de buffer.http://processing.org/reference/createGraphics_.html
+		//PGraphics pg;
+		//pg = createGraphics(100, 100);
+		// pg.beginDraw();
+		//  pg.background(102);
+		//  pg.stroke(255);
+		//  pg.line(pg.width*0.5, pg.height*0.5, mouseX, mouseY);
+		//  pg.endDraw();
+		//  image(pg, 50, 50); 
 		model.draw();
 		hint(DISABLE_DEPTH_TEST); // Así se hace para realidad aumentada.
 		kApi.drawJoint(userId,SimpleOpenNI.SKEL_RIGHT_HAND);

@@ -6,21 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="libs/openGL/gluegen-rt.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="magicMirror/libs/openGL/linux64"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/openGL/jogl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="magicMirror/libs/openGL/linux64"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/openGL/opengl.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="magicMirror/libs/openGL/linux64"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="libs/processing/core.jar"/>
 	<classpathentry kind="lib" path="libs/processing/controlP5/library/controlP5.jar"/>
 	<classpathentry kind="lib" path="libs/processing/minim/jl1.0.jar"/>
@@ -33,14 +18,22 @@
 	<classpathentry kind="lib" path="libs/processing/net/net.jar"/>
 	<classpathentry kind="lib" path="libs/processing/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="libs/processing/peasycam/library/peasycam.jar"/>
-	<classpathentry kind="lib" path="libs/processing/SimpleOpenNI_0.27/library/libSimpleOpenNI.jnilib"/>
+	<classpathentry kind="lib" path="libs/processing/toxicLibs/toxiclibs_p5/library/toxiclibs_p5.jar"/>
+	<classpathentry kind="lib" path="libs/processing/pogg/library/pogg.jar"/>
+	<classpathentry kind="lib" path="libs/processing/gluegen-rt.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/opt/processing-2.0b8/core/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/processing/jogl-all.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/opt/processing-2.0b8/core/library"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="libs/processing/SimpleOpenNI_0.27/SimpleOpenNI.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/magicMirror/libs/processing/SimpleOpenNI_0.27/documentation/index.html!/"/>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="magicMirror/libs/processing/SimpleOpenNI_0.27/library"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libs/processing/toxicLibs/toxiclibs_p5/library/toxiclibs_p5.jar"/>
-	<classpathentry kind="lib" path="libs/processing/pogg/library/pogg.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

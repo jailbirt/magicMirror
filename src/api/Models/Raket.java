@@ -12,7 +12,7 @@ public class Raket extends InteractModel {
 //		 String executionPath = System.getProperty("user.dir");		
 		model = new OBJModel(p, "data/TennisRaket/TennisRaket.obj", "relative", PConstants.QUADS);
 		model.scale(20);
-		model.enableDebug();
+//		model.enableDebug();
 		model.enableMaterial();
 		model.enableTexture();
 		PVector cmass = new PVector(0,-100,0); // interseccion en el medio del puño
